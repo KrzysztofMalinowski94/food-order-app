@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import classes from "./styles.module.css";
+import FoodCard from "../FoodCard/FoodCard";
+import Wrapper from "../Wrapper/Wrapper";
+
 const DUMMY_MEALS = [
   {
     id: "m1",
@@ -32,21 +35,18 @@ export const FoodList = (props) => {
   const { className, ...otherProps } = props;
 
   return (
-    <ul
-      className={classes.meals}
-      {...otherProps}
-    >
-      {DUMMY_MEALS.map((meal) => {
-        return(
-          <li>
-            {meal.id}
-            {meal.name}
-            {meal.description}
-            {meal.price}
-          </li>
-        )
-      })}
-    </ul>
+    <Wrapper>
+      <ul
+        className={classes.meals}
+        {...otherProps}
+      >
+        {DUMMY_MEALS.map((meal) => {
+          return(
+            <FoodCard key={meal.id} foodData={meal}/>
+          )
+        })}
+      </ul>
+    </Wrapper>
   );
 };
 

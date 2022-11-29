@@ -2,15 +2,25 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import classes from "./styles.module.css";
+import FoodCardForm from "../FoodCardForm/FoodCardForm";
 
 export const FoodCard = (props) => {
-  const { id, name, description, price, className, ...otherProps } = props;
+  const { foodData, className, ...otherProps } = props;
+
+  const { id, name, description, price } = foodData;
 
   return (
-    <li
-      className={classes.root}
-      {...otherProps}
-    ></li>
+      <li
+        className={classes.meal}
+        {...otherProps}
+      >
+        <div>
+          <h3>{name}</h3>
+          <div className={classes.description}>{description}</div>
+          <div className={classes.price}>{price}</div>
+        </div>
+        <FoodCardForm className={'form'}/>
+      </li>
   );
 };
 
