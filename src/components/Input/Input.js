@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import classes from "./styles.module.css";
 
-export const Input = (props) => {
+export const Input = React.forwardRef((props,ref) => {
   const { className,id,label, ...otherProps } = props;
 
   return (
@@ -12,7 +12,7 @@ export const Input = (props) => {
       <input {...otherProps} />
     </div>
   );
-};
+});
 
 Input.propTypes = {
   className: PropTypes.string,

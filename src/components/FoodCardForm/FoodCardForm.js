@@ -8,27 +8,23 @@ import Button from "../Button/Button";
 export const FoodCardForm = (props) => {
   const { className, ...otherProps } = props;
 
+  const amountInputRef = React.useRef();
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const inputAmount = Number(amountInputRef.current.value);
+  };
+
   return (
-    <form
-      className={classes.form}
-      {...otherProps}
-    >
-      <Input
-        label="Amount"
-        id="amount"
-        type="number"
-        min="1"
-        max="5"
-        step="1"
-        defaultValue="1"
-      />
+    <form className={classes.form} {...otherProps} onSubmit={submitHandler}>
+      <Input ref={amountInputRef} label="Amount" id="amount" type="number" min="1" max="5" step="1" defaultValue="1" />
       <Button className={classes.formButton}>ADD</Button>
     </form>
   );
 };
 
 FoodCardForm.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default FoodCardForm;

@@ -3,6 +3,7 @@ import "./App.css";
 import Cart from "./components/Cart/Cart";
 import FoodSection from "./components/FoodSection/FoodSection";
 import Header from "./components/Header/Header";
+import { CartContextProvider } from "./contexts/CartContext";
 
 function App() {
   const [cartIsOpen, setCartIsOpen] = useState(false);
@@ -12,13 +13,13 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <CartContextProvider>
       {cartIsOpen && <Cart toggleCartVisibility = {toggleCartVisibility}/>}
       <Header toggleCartVisibility = {toggleCartVisibility}/>
       <main>
         <FoodSection />
       </main>
-    </div>
+    </CartContextProvider>
   );
 }
 
