@@ -9,7 +9,7 @@ import Button from "../Button/Button";
 import CartIcon from "../../assets/svg/CartIcon";
 
 export const Header = (props) => {
-  const { className, ...otherProps } = props;
+  const { className, toggleCartVisibility, ...otherProps } = props;
 
   return (
     <>
@@ -20,7 +20,7 @@ export const Header = (props) => {
         {...otherProps}
       >
         <h1>Food order app</h1>
-        <Button className={classes.button}>
+        <Button className={classes.button} onClick={toggleCartVisibility}>
           <span className={classes.icon}>
             <CartIcon />
           </span>
