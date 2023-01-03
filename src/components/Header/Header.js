@@ -12,15 +12,40 @@ import CartContext from "../../contexts/CartContext";
 export const Header = (props) => {
   const { className, toggleCartVisibility, ...otherProps } = props;
 
+  const [isButtonBumped, setIsButtonBumped] = React.useState(false);
+
   const cartContext = useContext(CartContext);
+  const { items } = cartContext;
   const cartItemsAmount = cartContext.items.reduce((currentAmount, item) => {
-    return currentAmount + item.Amount;
+    return currentAmount + item.amount;
   }, 0);
+
+  React.useEffect(() => {
+    if (cartContext.items.length === 0) {
+      return;
+    }
+    setIsButtonBumped(true);
+    const timer = setTimeout(() => {
+      setIsButtonBumped(false);
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [items]);
+
   return (
     <>
-      <header className={`${classes.root}${className ? ` ${className}` : ""} ${classes.header}`} {...otherProps}>
+      <header
+        className={`${classes.root}${className ? ` ${className}` : ""} ${
+          classes.header
+        }`}
+        {...otherProps}
+      >
         <h1>Food order app</h1>
-        <Button className={classes.button} onClick={toggleCartVisibility}>
+        <Button
+          className={`${classes.button} ${isButtonBumped ? classes.bump : ""}`}
+          onClick={toggleCartVisibility}
+        >
           <span className={classes.icon}>
             <CartIcon />
           </span>
@@ -29,14 +54,17 @@ export const Header = (props) => {
         </Button>
       </header>
       <div className={classes.mainImage}>
-        <img src={headerImg} alt="header-img" />
+        <img
+          src={headerImg}
+          alt="header-img"
+        />
       </div>
     </>
   );
 };
 
 Header.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Header;

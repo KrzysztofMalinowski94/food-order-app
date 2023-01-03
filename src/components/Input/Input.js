@@ -9,7 +9,7 @@ export const Input = React.forwardRef((props,ref) => {
   return (
     <div className={classes.input}>
       <label htmlFor={id}>{label}</label>
-      <input {...otherProps} />
+      <input ref={ref} {...otherProps} />
     </div>
   );
 });

@@ -5,53 +5,52 @@ import classes from "./styles.module.css";
 import FoodCard from "../FoodCard/FoodCard";
 import Wrapper from "../Wrapper/Wrapper";
 
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
 export const FoodList = (props) => {
   const { className, ...otherProps } = props;
 
+  const [meals, setMeals] = React.useState(null || []);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [hasError, setHasError] = React.useState(null);
+
+  React.useEffect(() => {
+    getMeals();
+  }, []);
+
+  const getMeals = async () => {
+    try {
+      setIsLoading(true);
+      const data = await fetch("https://my--food-order--app-default-rtdb.europe-west1.firebasedatabase.app/meals.json");
+      const res = await data.json();
+      setMeals(res);
+    } catch (error) {
+      setHasError(error.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Wrapper>
-      <ul
-        className={classes.meals}
-        {...otherProps}
-      >
-        {DUMMY_MEALS.map((meal) => {
-          return(
-            <FoodCard key={meal.id} foodData={meal}/>
-          )
-        })}
-      </ul>
+      {hasError ? (
+        `${hasError}`
+      ) : isLoading ? (
+        "Loading...."
+      ) : (
+        <ul className={classes.meals} {...otherProps}>
+          {meals.map((meal) => {
+            return (
+              <FoodCard key={meal.id} id={meal.id} name={meal.name} description={meal.description} price={meal.price} />
+            );
+          })}
+        </ul>
+      )}
     </Wrapper>
   );
 };
 
 FoodList.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default FoodList;
